@@ -16,6 +16,10 @@
       {
         "src": "assets/**",
         "use": "@vercel/static"
+      },
+      {
+        "src": "*.json",
+        "use": "@vercel/static"
       }
     ],
     "routes": [
@@ -39,6 +43,13 @@
         "dest": "/$1.js",
         "headers": {
           "content-type": "application/javascript"
+        }
+      },
+      {
+        "src": "/(.*)\\.json",
+        "dest": "/$1.json",
+        "headers": {
+          "content-type": "application/json"
         }
       },
       {
