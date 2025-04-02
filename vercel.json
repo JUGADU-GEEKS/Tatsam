@@ -20,11 +20,19 @@
     ],
     "routes": [
       {
+        "src": "/assets/(.*)",
+        "dest": "/assets/$1"
+      },
+      {
         "src": "/style\\.css",
         "headers": {
           "cache-control": "public, max-age=0, must-revalidate",
           "content-type": "text/css"
         }
+      },
+      {
+        "src": "/(.*)\\.(?:jpg|jpeg|gif|png|svg|ico|mp3)$",
+        "dest": "/$1.$2"
       },
       {
         "src": "/(.*)",
