@@ -247,8 +247,8 @@ document.addEventListener('DOMContentLoaded', function() {
             shayariLoader.classList.add('active');
             shayariText.classList.remove('visible');
             
-            // Fetch from local JSON file
-            const response = await fetch('shayris.json');
+            // Fetch from local JSON file using absolute path
+            const response = await fetch('/shayris.json');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
