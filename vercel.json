@@ -35,6 +35,13 @@
         "dest": "/$1.$2"
       },
       {
+        "src": "/(.*)\\.js",
+        "dest": "/$1.js",
+        "headers": {
+          "content-type": "application/javascript"
+        }
+      },
+      {
         "src": "/(.*)",
         "dest": "/index.html"
       }
