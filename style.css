@@ -60,6 +60,9 @@
     background-color: var(--background);
     color: var(--foreground);
     line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -1294,48 +1297,138 @@
     }
   }
   
-  /* Scroll to Top Button */
-  .scroll-to-top {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    background: var(--primary-color);
+  /* Shayari Container */
+  .shayari-container {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shayari-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: 1;
+  }
+
+  .shayari-container[data-theme="love"] {
+    background: linear-gradient(135deg, rgba(196, 109, 122, 0.205), rgba(255, 0, 128, 0.2));
+  }
+
+  .shayari-container[data-theme="motivation"] {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
+  }
+
+  .shayari-container[data-theme="friendship"] {
+    background: linear-gradient(135deg, rgba(135, 206, 235, 0.2), rgba(0, 191, 255, 0.2));
+  }
+
+  .shayari-container[data-theme="sad"] {
+    background: linear-gradient(135deg, rgba(169, 169, 169, 0.2), rgba(128, 128, 128, 0.2));
+  }
+
+  .shayari-container[data-theme="life"] {
+    background: linear-gradient(135deg, rgba(144, 238, 144, 0.2), rgba(50, 205, 50, 0.2));
+  }
+
+  .dark .shayari-container[data-theme="love"] {
+    background: linear-gradient(135deg, rgba(255, 182, 193, 0.1), rgba(255, 105, 180, 0.1));
+  }
+
+  .dark .shayari-container[data-theme="motivation"] {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
+  }
+
+  .dark .shayari-container[data-theme="friendship"] {
+    background: linear-gradient(135deg, rgba(135, 206, 235, 0.1), rgba(0, 191, 255, 0.1));
+  }
+
+  .dark .shayari-container[data-theme="sad"] {
+    background: linear-gradient(135deg, rgba(169, 169, 169, 0.1), rgba(128, 128, 128, 0.1));
+  }
+
+  .dark .shayari-container[data-theme="life"] {
+    background: linear-gradient(135deg, rgba(144, 238, 144, 0.1), rgba(50, 205, 50, 0.1));
+  }
+
+  .shayari-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .shayari-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
     color: var(--text-color);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-family: 'Yatra One', cursive;
+    margin: 0;
     opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
   }
-  
-  .scroll-to-top.visible {
+
+  .shayari-text.visible {
     opacity: 1;
-    visibility: visible;
+    transform: translateY(0);
   }
-  
-  .scroll-to-top:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+  .shayari-theme {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-top: 0.5rem;
+    text-transform: capitalize;
   }
-  
-  .scroll-to-top i {
-    font-size: 1.5rem;
+
+  .shayari-loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    display: none;
   }
-  
+
+  .shayari-loader.active {
+    display: block;
+  }
+
+  .loader-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--text-color);
+    border-top: 3px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
   @media (max-width: 768px) {
-    .scroll-to-top {
-      bottom: 1.5rem;
-      right: 1.5rem;
-      width: 2.5rem;
-      height: 2.5rem;
+    .shayari-container {
+      margin-top: 1.5rem;
+      padding: 1rem;
+    }
+
+    .shayari-text {
+      font-size: 1.1rem;
     }
   }
   
@@ -1531,711 +1624,6 @@
   }
   
   /* Random Positions and Animations */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
-  .lantern-1 { --random-offset: 0.5; }
-  .lantern-2 { --random-offset: 1.2; }
-  .lantern-3 { --random-offset: 0.8; }
-  .lantern-4 { --random-offset: 1.5; }
-  .lantern-5 { --random-offset: 0.9; }
-  .lantern-6 { --random-offset: 1.3; }
-  .lantern-7 { --random-offset: 0.7; }
-  .lantern-8 { --random-offset: 1.4; }
-  .lantern-9 { --random-offset: 1.1; }
-  .lantern-10 { --random-offset: 0.6; }
-  .lantern-11 { --random-offset: 1.0; }
-  .lantern-12 { --random-offset: 1.6; }
-  
-  /* Random Positions and Animations */
-  .lantern-1 { top: 5%; left: -40px; animation-delay: 0s; animation-duration: 18s; }
-  .lantern-2 { top: 15%; left: -40px; animation-delay: 2s; animation-duration: 22s; }
-  .lantern-3 { top: 25%; left: -40px; animation-delay: 4s; animation-duration: 20s; }
-  .lantern-4 { top: 35%; left: -40px; animation-delay: 6s; animation-duration: 24s; }
-  .lantern-5 { top: 45%; left: -40px; animation-delay: 8s; animation-duration: 19s; }
-  .lantern-6 { top: 55%; left: -40px; animation-delay: 10s; animation-duration: 21s; }
-  .lantern-7 { top: 65%; left: -40px; animation-delay: 12s; animation-duration: 23s; }
-  .lantern-8 { top: 75%; left: -40px; animation-delay: 14s; animation-duration: 17s; }
-  .lantern-9 { top: 85%; left: -40px; animation-delay: 16s; animation-duration: 25s; }
-  .lantern-10 { top: 10%; left: -40px; animation-delay: 1s; animation-duration: 20s; }
-  .lantern-11 { top: 20%; left: -40px; animation-delay: 3s; animation-duration: 22s; }
-  .lantern-12 { top: 30%; left: -40px; animation-delay: 5s; animation-duration: 18s; }
-  
-  @keyframes float {
-    0% {
-      transform: translateX(0) translateY(0) rotate(0deg);
-      opacity: 0;
-    }
-    10% {
-      opacity: 1;
-    }
-    90% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(calc(100vw + 40px)) 
-                translateY(calc(sin(var(--random-offset)) * 150px))
-                rotate(calc(sin(var(--random-offset)) * 10deg));
-      opacity: 0;
-    }
-  }
-  
-  /* Random Movement Offsets */
   .lantern-1 { --random-offset: 0.5; }
   .lantern-2 { --random-offset: 1.2; }
   .lantern-3 { --random-offset: 0.8; }
@@ -3206,12 +2594,7 @@
     scroll-behavior: smooth;
   }
   
-  body {
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--background);
-    color: var(--foreground);
-    line-height: 1.6;
-  }
+  
   
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Yatra One', cursive;
@@ -6673,4 +6056,64 @@
   .lantern-11 { --random-offset: 1.0; }
   .lantern-12 { --random-offset: 1.6; }
   
- 
+  .glitter {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 80%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: fadeOut 0.6s linear forwards, moveUp 0.6s linear;
+    box-shadow: 0 0 8px white, 0 0 15px rgba(255, 255, 255, 0.8);
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.2); }
+}
+
+@keyframes moveUp {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+}
+
+/* Glitter effect for cursor */
+.glitter {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform, opacity;
+  animation: fadeOut 1.2s ease-out forwards;
+  mix-blend-mode: screen;
+  filter: blur(0.5px);
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; }
+  100% { opacity: 0; transform: scale(1.8); }
+}
+
+/* Enhanced glitter with glow effect */
+.glitter.blue { background: radial-gradient(circle, rgba(65,105,225,1) 0%, rgba(65,105,225,0) 70%); box-shadow: 0 0 10px rgba(65,105,225,0.8); }
+.glitter.purple { background: radial-gradient(circle, rgba(138,43,226,1) 0%, rgba(138,43,226,0) 70%); box-shadow: 0 0 10px rgba(138,43,226,0.8); }
+.glitter.pink { background: radial-gradient(circle, rgba(255,105,180,1) 0%, rgba(255,105,180,0) 70%); box-shadow: 0 0 10px rgba(255,105,180,0.8); }
+.glitter.gold { background: radial-gradient(circle, rgba(255,215,0,1) 0%, rgba(255,215,0,0) 70%); box-shadow: 0 0 10px rgba(255,215,0,0.8); }
+.glitter.teal { background: radial-gradient(circle, rgba(0,128,128,1) 0%, rgba(0,128,128,0) 70%); box-shadow: 0 0 10px rgba(0,128,128,0.8); }
+.glitter.green { background: radial-gradient(circle, rgba(50,205,50,1) 0%, rgba(50,205,50,0) 70%); box-shadow: 0 0 10px rgba(50,205,50,0.8); }
+
+
+
+.custom-cursor {
+  position: absolute;
+  width: 40px; /* Adjust based on GIF size */
+  height: 40px;
+  background: url('cursor.png') no-repeat center;
+  background-size: contain;
+  pointer-events: none; /* So it doesn't interfere with clicks */
+  z-index: 1000;
+}

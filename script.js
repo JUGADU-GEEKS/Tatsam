@@ -1,3 +1,4 @@
+let cLanguage = "english";
 document.addEventListener('DOMContentLoaded', function() {
     // Navigation scroll effect
     const nav = document.querySelector('.nav');
@@ -26,6 +27,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Animation on scroll elements
     const animatedElements = document.querySelectorAll('.card, .member-card, .event-card, .blog-card, .gallery-item');
+    
+    // Shayari Display
+    const shayariContainer = document.querySelector('.shayari-container');
+    const shayariText = document.querySelector('.shayari-text');
+    const shayariTheme = document.querySelector('.shayari-theme');
+    const shayariLoader = document.querySelector('.shayari-loader');
+    let currentShayari = null;
     
     // Initialize
     init();
@@ -102,6 +110,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function toggleLanguage() {
       currentLang = currentLang === 'english' ? 'hindi' : 'english';
+      cLanguage = currentLang;
+      console.log(cLanguage);
       langSwitch.setAttribute('data-state', currentLang);
       localStorage.setItem('language', currentLang);
       applyLanguage(currentLang);
@@ -231,5 +241,158 @@ document.addEventListener('DOMContentLoaded', function() {
             observer.observe(element);
         });
     });
+
+    async function fetchShayari(language) {
+        try {
+            shayariLoader.classList.add('active');
+            shayariText.classList.remove('visible');
+            
+            // Fetch from local JSON file
+            const response = await fetch('shayris.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const allShayaris = await response.json();
+            
+            // Get random shayari from the appropriate language array
+            const shayaris = allShayaris[language];
+            const randomIndex = Math.floor(Math.random() * shayaris.length);
+            let data = shayaris[randomIndex];
+            
+            // Check if the new shayari is different from the current one
+            if (currentShayari && currentShayari.text === data.text) {
+                // If it's the same, try fetching again
+                return fetchShayari(language);
+            }
+            
+            // Remove previous theme
+            if (currentShayari) {
+                shayariContainer.removeAttribute('data-theme');
+            }
+            
+            // Set new theme
+            shayariContainer.setAttribute('data-theme', data.theme.toLowerCase());
+            
+            // Update text and theme
+            shayariText.textContent = data.text;
+            shayariTheme.textContent = data.theme;
+            
+            // Show with animation
+            setTimeout(() => {
+                shayariText.classList.add('visible');
+                shayariLoader.classList.remove('active');
+            }, 300);
+            
+            currentShayari = data;
+        } catch (error) {
+            console.error('Error fetching shayari:', error);
+            shayariLoader.classList.remove('active');
+            shayariText.textContent = language === 'english' ? 
+                'Unable to load shayari. Please try again.' : 
+                'शायरी लोड करने में समस्या। कृपया पुनः प्रयास करें।';
+        }
+    }
+
+    function updateShayari() {
+        const currentLang = document.documentElement.classList.contains('hindi') ? 'hindi' : 'english';
+        fetchShayari(cLanguage);
+    }
+
+    // Update shayari every 7 seconds
+    setInterval(updateShayari, 7000);
+
+    // Initial shayari display
+    updateShayari();
+
+    // Update shayari when language changes
+    langSwitch.addEventListener('click', () => {
+        setTimeout(updateShayari, 900); // Wait for language switch animation
+    });
   });
+
+// Function to create glitter particles
+// Glitter effect initialization
+const initGlitterEffect = () => {
+  document.addEventListener("mousemove", function(event) {
+    // Only create glitter particles every 3rd mouse move event to improve performance
+    if (Math.random() > 0.5) {
+      createGlitterParticles(event.clientX, event.clientY);
+    }
+  });
+
+  // Add touch support for mobile devices
+  document.addEventListener("touchmove", function(event) {
+    if (event.touches.length > 0) {
+      // Only create particles every few pixels moved to avoid overwhelming mobile devices
+      if (Math.random() > 0.7) {
+        createGlitterParticles(event.touches[0].clientX, event.touches[0].clientY);
+      }
+    }
+  });
+};
+
+// Function to create glitter particles
+const createGlitterParticles = (x, y) => {
+  const particleCount = Math.floor(Math.random() * 3) + 2; // 2-4 particles
   
+  for (let i = 0; i < particleCount; i++) {
+    const glitter = document.createElement("div");
+    glitter.className = "glitter";
+    
+    // Random size
+    const size = Math.random() * 10 + 8; // 8px - 18px
+    glitter.style.width = `${size}px`;
+    glitter.style.height = `${size}px`;
+
+    // Add random color classes for variety
+    const colorClasses = ["blue", "purple", "pink", "gold", "teal", "green"];
+    const randomColorClass = colorClasses[Math.floor(Math.random() * colorClasses.length)];
+    glitter.classList.add(randomColorClass);
+
+    // Position with some randomness for a more natural effect
+    const offsetX = (Math.random() - 0.5) * 30;
+    const offsetY = (Math.random() - 0.5) * 30;
+    glitter.style.left = `${x + offsetX}px`;
+    glitter.style.top = `${y + offsetY}px`;
+
+    // Add to DOM
+    document.body.appendChild(glitter);
+
+    // Random animation duration for more natural effect
+    const duration = 800 + Math.random() * 400; // 800-1200ms
+    glitter.style.animationDuration = `${duration}ms`;
+
+    // Remove after animation completes
+    setTimeout(() => {
+      if (glitter.parentNode) {
+        glitter.parentNode.removeChild(glitter);
+      }
+    }, duration);
+  }
+};
+
+// Initialize the effect
+document.addEventListener('DOMContentLoaded', () => {
+  initGlitterEffect();
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const customCursor = document.createElement("div");
+  customCursor.classList.add("custom-cursor");
+  document.body.appendChild(customCursor);
+
+  document.addEventListener("mousemove", (e) => {
+      customCursor.style.left = `${e.pageX}px`;
+      customCursor.style.top = `${e.pageY}px`;
+  });
+
+  // Hide cursor when outside the window
+  document.addEventListener("mouseleave", () => {
+      customCursor.style.opacity = "0";
+  });
+
+  document.addEventListener("mouseenter", () => {
+      customCursor.style.opacity = "1";
+  });
+});
