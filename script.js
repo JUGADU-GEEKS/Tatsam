@@ -396,3 +396,34 @@ document.addEventListener("DOMContentLoaded", function () {
       customCursor.style.opacity = "1";
   });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Elements
+  const splashScreen = document.getElementById('splash-screen');
+  const homePage = document.getElementById('root');
+
+  // Function to show splash screen and then redirect to home page
+  function showSplashAndRedirect() {
+    // Show splash screen
+    splashScreen.classList.remove('hidden');
+    homePage.classList.add('hidden');
+
+    // Set timeout to transition to home page after 5 seconds
+    setTimeout(() => {
+      // Fade out splash screen
+      splashScreen.style.opacity = '0';
+      splashScreen.style.pointerEvents = 'none';
+
+      // Show home page
+      homePage.classList.remove('hidden');
+
+      // Clean up splash screen after transition
+      setTimeout(() => {
+        splashScreen.classList.add('hidden');
+      }, 500);
+    }, 5000);
+  }
+
+  // Show splash screen on every page load/refresh
+  showSplashAndRedirect();
+});
