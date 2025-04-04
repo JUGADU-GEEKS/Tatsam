@@ -6,6 +6,8 @@
   --card: #ffffff;
   --card-foreground: #222222;
   --primary: #ff7a00;
+  --primary-rgb: 255, 122, 0;
+  --primary-transparent: rgba(255, 122, 0, 0.1);
   --primary-foreground: #fff8f2;
   --secondary: #0069d9;
   --secondary-foreground: #f2f9ff;
@@ -29,6 +31,8 @@
   --card: #1c1c22;
   --card-foreground: #f8f8f8;
   --primary: #ff7a00;
+  --primary-rgb: 255, 122, 0;
+  --primary-transparent: rgba(255, 122, 0, 0.15);
   --primary-foreground: #fff8f2;
   --secondary: #0069d9;
   --secondary-foreground: #f2f9ff;
@@ -564,6 +568,8 @@ img {
 .events {
   padding: 6rem 0;
   background-color: var(--muted);
+  position: relative;
+  overflow: hidden;
 }
 
 .events-grid {
@@ -575,6 +581,34 @@ img {
 .event-card {
   position: relative;
   overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transform-origin: center;
+  cursor: pointer;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.event-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  z-index: 2;
+}
+
+.event-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-transparent), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+}
+
+.event-card:hover::before {
+  opacity: 0.15;
 }
 
 .event-date {
@@ -587,6 +621,13 @@ img {
   border-radius: var(--radius);
   text-align: center;
   min-width: 60px;
+  transform: translateY(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover .event-date {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .event-day {
@@ -605,18 +646,33 @@ img {
   margin-bottom: 1rem;
   padding-right: 70px;
   line-height: 1.4;
+  transition: color 0.3s ease;
+}
+
+.event-card:hover .event-title {
+  color: var(--primary);
 }
 
 .event-desc {
   color: var(--muted-foreground);
   margin-bottom: 1rem;
   padding-right: 70px;
+  transition: transform 0.3s ease;
+}
+
+.event-card:hover .event-desc {
+  transform: translateY(-2px);
 }
 
 .event-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.event-card:hover .event-footer {
+  transform: translateY(-2px);
 }
 
 .event-location {
@@ -630,11 +686,79 @@ img {
 .event-button {
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
+  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.event-card:hover .event-button {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  transform: translateY(-2px);
 }
 
 .events-cta {
   margin-top: 3rem;
   text-align: center;
+}
+
+/* Events animations */
+@keyframes eventCardAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes eventPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(var(--primary-rgb), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0);
+  }
+}
+
+.event-card {
+  animation: eventCardAppear 0.8s forwards;
+}
+
+.event-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.event-card:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.event-card:nth-child(3) {
+  animation-delay: 0.5s;
+}
+
+.section-title.events-title {
+  position: relative;
+}
+
+.section-title.events-title::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  width: 80px;
+  height: 4px;
+  background: var(--primary);
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  transition: transform 0.5s ease;
+}
+
+.section-title.events-title.reveal::after {
+  transform: translateX(-50%) scaleX(1);
 }
 
 /* Members Section */
@@ -770,6 +894,10 @@ img {
   text-align: center;
 }
 
+.view-full-gallery-button {
+  margin-top: 2rem;
+}
+
 /* Blog Section */
 .blog {
   padding: 6rem 0;
@@ -869,9 +997,27 @@ img {
   padding: 4rem 0;
   background-color: var(--primary);
   color: var(--primary-foreground);
+  position: relative;
+  background-image: url('assets/newsletter-bg.jpg'); /* Add the image path here */
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.newsletter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  z-index: -1;
 }
 
 .newsletter-content {
+  position: relative;
+  z-index: 2;
   text-align: center;
   max-width: 700px;
   margin: 0 auto;
