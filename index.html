@@ -1476,6 +1476,46 @@
   <!-- Right before the closing body tag -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <!-- Add this at the end of the file, before the closing body tag but after other scripts -->
+  <div class="custom-cursor"></div>
+  
+  <script>
+    // Custom cursor implementation
+    document.addEventListener('DOMContentLoaded', function() {
+      const cursor = document.querySelector('.custom-cursor');
+      
+      // Set initial position off-screen to avoid flickering
+      cursor.style.opacity = '0';
+      
+      // Track mouse movement across the entire document
+      document.addEventListener('mousemove', (e) => {
+        // Update cursor position to follow mouse
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        // Ensure cursor is visible
+        if (cursor.style.opacity === '0') {
+          cursor.style.opacity = '1';
+        }
+      });
+      
+      // Hide cursor when mouse leaves window
+      document.addEventListener('mouseleave', () => {
+        cursor.style.opacity = '0';
+      });
+      
+      // Show cursor when mouse enters window
+      document.addEventListener('mouseenter', () => {
+        cursor.style.opacity = '1';
+      });
+      
+      // Fix for touch devices
+      if ('ontouchstart' in window) {
+        cursor.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 
 </html>
