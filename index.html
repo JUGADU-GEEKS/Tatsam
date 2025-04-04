@@ -745,27 +745,24 @@
       <!-- Events Section -->
       <section id="events" class="events scroll-reveal">
         <div class="container">
-          <h2 class="section-title" data-en="Our Events" data-hi="हमारे कार्यक्रम">Our Events</h2>
+          <h2 class="section-title events-title" data-en="Our Events" data-hi="हमारे कार्यक्रम">Our Events</h2>
           <div class="events-grid">
             <!-- Event Card 1 -->
-            <div class="event-card card">
+            <div class="event-card card" data-gsap="fade-up" data-gsap-delay="0.1">
               <div class="event-date">
                 <span class="event-day">15</span>
                 <span class="event-month">Oct</span>
               </div>
               <h3 class="event-title" data-en="Kavyanjali 2023" data-hi="काव्यांजलि 2023">Kavyanjali 2023</h3>
               <p class="event-desc" data-en="Annual poetry competition celebrating Hindi literature"
-                data-hi="हिंदी साहित्य का जश्न मनाने वाली वार्षिक कविता प्रतियोगिता">
-                Annual poetry competition celebrating Hindi literature
-              </p>
+                data-hi="हिंदी साहित्य का जश्न मनाने वाली वार्षिक कविता प्रतियोगिता">Annual poetry competition celebrating Hindi literature</p>
               <div class="event-footer">
                 <span class="event-location"><i class="ri-map-pin-line"></i> Main Auditorium</span>
                 <a href="#" class="button-outline event-button" data-en="Details" data-hi="विवरण">Details</a>
               </div>
             </div>
-
             <!-- Event Card 2 -->
-            <div class="event-card card">
+            <div class="event-card card" data-gsap="fade-up" data-gsap-delay="0.2">
               <div class="event-date">
                 <span class="event-day">28</span>
                 <span class="event-month">Nov</span>
@@ -773,26 +770,21 @@
               <h3 class="event-title" data-en="Hindi Debate Competition" data-hi="हिंदी वाद-विवाद प्रतियोगिता">Hindi
                 Debate Competition</h3>
               <p class="event-desc" data-en="Inter-college debate on contemporary issues in Hindi"
-                data-hi="हिंदी में समकालीन मुद्दों पर अंतर-कॉलेज वाद-विवाद">
-                Inter-college debate on contemporary issues in Hindi
-              </p>
+                data-hi="हिंदी में समकालीन मुद्दों पर अंतर-महाविद्यालय वाद-विवाद">Inter-college debate on contemporary issues in Hindi</p>
               <div class="event-footer">
                 <span class="event-location"><i class="ri-map-pin-line"></i> Seminar Hall</span>
                 <a href="#" class="button-outline event-button" data-en="Details" data-hi="विवरण">Details</a>
               </div>
             </div>
-
             <!-- Event Card 3 -->
-            <div class="event-card card">
+            <div class="event-card card" data-gsap="fade-up" data-gsap-delay="0.3">
               <div class="event-date">
                 <span class="event-day">10</span>
                 <span class="event-month">Dec</span>
               </div>
               <h3 class="event-title" data-en="Katha Kathan" data-hi="कथा कथन">Katha Kathan</h3>
               <p class="event-desc" data-en="Storytelling evening featuring classic Hindi tales"
-                data-hi="क्लासिक हिंदी कहानियों की कहानी सुनाने की शाम">
-                Storytelling evening featuring classic Hindi tales
-              </p>
+                data-hi="क्लासिक हिंदी कहानियों की कहानी शाम">Storytelling evening featuring classic Hindi tales</p>
               <div class="event-footer">
                 <span class="event-location"><i class="ri-map-pin-line"></i> Open Air Theatre</span>
                 <a href="#" class="button-outline event-button" data-en="Details" data-hi="विवरण">Details</a>
@@ -1595,6 +1587,10 @@
       waitForImagesLoaded();
     });
   </script>
+
+  <!-- Right before the closing body tag -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </body>
 
-</html></html>
+</html>
