@@ -17,6 +17,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@tatsam_nsut" />
   <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  <link rel="shortcut icon" href="/assets/logo.png" type="image/x-icon">
 
   <!-- Google Fonts -->
   <link rel="stylesheet"
@@ -191,7 +192,6 @@
       z-index: 20;
     }
 
-<<<<<<< HEAD
     /* Gallery Background Styles */
     .gallery {
       position: relative;
@@ -208,18 +208,18 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('./img2.jpg');
+      background-image: url('/img2.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
       opacity: var(--bg-opacity);
       z-index: -1;
-      filter: none; /* Removed blur filter */
+      filter: none;
       transition: opacity 0.8s ease;
     }
 
     .gallery.background-glow::before {
-      filter: none; /* Removed blur filter */
+      filter: none;
       opacity: var(--bg-opacity);
     }
 
@@ -228,7 +228,7 @@
       position: relative;
       width: 100%;
       height: clamp(500px, 70vh, 700px);
-      margin: 2rem auto;
+      margin: 2rem auto 5rem;
       perspective: var(--carousel-perspective);
       overflow: visible;
       z-index: 2;
@@ -257,12 +257,15 @@
     /* Enhanced carousel controls for better visibility on the background */
     .carousel-controls {
       position: absolute;
-      bottom: -60px;
+      bottom: -70px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       gap: 20px;
-      z-index: 10;
+      z-index: 30;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
     }
 
     .carousel-controls button {
@@ -353,9 +356,8 @@
       border-radius: 20px;
       backdrop-filter: blur(5px);
       padding: 20px;
-      /* Removed box shadow */
       position: relative;
-      overflow: visible; /* Changed from hidden to visible */
+      overflow: visible;
     }
 
     .gallery .gallery-3d-carousel::before {
@@ -373,7 +375,7 @@
     /* Improve gallery CTA for better visibility on background */
     .gallery-cta {
       position: relative;
-      margin-top: 120px; /* Increased from 100px to provide more space for controls */
+      margin-top: 120px;
       z-index: 20;
       text-align: center;
     }
@@ -400,7 +402,8 @@
 
     .gallery-cta .button-primary:hover::before {
       left: 100%;
-=======
+    }
+
     /* Add responsive styles for hero section container */
     .container {
       width: 100%;
@@ -585,7 +588,6 @@
       .carousel-item {
         margin: 0 3px;
       }
->>>>>>> 811515adccf8f561f283a443cdd5a43f25dba1f4
     }
   </style>
 
