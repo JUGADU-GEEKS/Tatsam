@@ -267,63 +267,65 @@
       }
 
       :root {
-        --carousel-item-width: clamp(120px, 20vw, 160px);
-        --carousel-item-height: clamp(160px, 30vw, 200px);
+        --carousel-item-width: 150px;
+        --carousel-item-height: 180px;
+        --carousel-translateZ: 18vw;
+      }
+    }
+
+    /* iPhone 14 Pro Max specific styles */
+    @media only screen 
+    and (device-width: 430px) 
+    and (device-height: 932px) 
+    and (-webkit-device-pixel-ratio: 3) {
+      .gallery-3d-carousel {
+        height: 500px;
+        perspective: 1500px;
+        margin: 2rem 0;
+        overflow: visible;
+      }
+
+      :root {
+        --carousel-item-width: 140px;
+        --carousel-item-height: 180px;
         --carousel-translateZ: 30vw;
       }
-    }
 
-    .carousel-controls {
-      position: absolute;
-      bottom: -60px;
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      gap: clamp(20px, 4vw, 40px);
-      padding: clamp(10px, 3vw, 20px) 0;
-      z-index: 10;
-    }
-
-    .carousel-prev,
-    .carousel-next {
-      background-color: rgba(255, 255, 255, 0.95);
-      border: none;
-      border-radius: 50%;
-      width: clamp(40px, 6vw, 50px);
-      height: clamp(40px, 6vw, 50px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s, background-color 0.3s;
-    }
-
-    .carousel-prev:hover,
-    .carousel-next:hover {
-      transform: scale(1.1);
-      background-color: #ffffff;
-    }
-
-    /* Touch device optimizations */
-    @media (hover: none) {
-      .carousel-item .item-caption {
-        opacity: 1;
-        background: rgba(0, 0, 0, 0.8);
+      .carousel-3d {
+        transform: translateZ(-30vw) rotateY(0deg);
       }
 
-      .carousel-prev,
-      .carousel-next {
+      .carousel-item {
+        margin: 0 25px;
+        transition: all 0.4s ease;
+      }
+
+      .carousel-item.active {
+        transform:
+          translateX(-50%) translateY(-50%) rotateY(calc(var(--item-index) * 45deg)) translateZ(var(--carousel-translateZ)) scale(1.2);
+        z-index: 10;
+      }
+
+      .carousel-item:not(.active) {
+        opacity: 0.7;
+      }
+
+      .carousel-controls {
+        padding: 20px 0;
+        gap: 40px;
+        bottom: -60px;
+      }
+
+      .carousel-controls button {
+        width: 45px;
+        height: 45px;
         background-color: rgba(255, 255, 255, 0.95);
       }
-    }
 
-    /* High-DPI screen optimizations */
-    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-      .carousel-item img {
-        image-rendering: -webkit-optimize-contrast;
+      .item-caption {
+        padding: 10px;
+        font-size: 0.85rem;
+        background: rgba(0, 0, 0, 0.8);
       }
     }
   </style>
@@ -1147,9 +1149,20 @@
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
-        // iPhone 14 Pro Max specific adjustments
-        if (viewportWidth === 430 && viewportHeight === 932) {
-          initializeForIPhone14ProMax();
+        // Specific adjustments for iPhone
+        let itemWidth, itemHeight, translateZ;
+
+        if (isiPhone()) {
+          // iPhone-specific sizes
+          if (viewportWidth <= 390) { // iPhone 12 Pro, 13 Pro, etc.
+            itemWidth = 160;
+            itemHeight = 200;
+            translateZ = "18vw";
+
+            document.documentElement.style.setProperty('--carousel-item-width', `${itemWidth}px`);
+            document.documentElement.style.setProperty('--carousel-item-height', `${itemHeight}px`);
+            document.documentElement.style.setProperty('--carousel-translateZ', translateZ);
+          }
         } else {
           // General responsive sizing
           translateZ = getTranslateZValue();
@@ -1260,37 +1273,6 @@
       // Start the carousel initialization
       waitForImagesLoaded();
     });
-
-    /* Update carousel initialization for iPhone 14 Pro Max */
-    function initializeForIPhone14ProMax() {
-      if (window.innerWidth === 430 && window.innerHeight === 932) {
-        const itemWidth = 140;
-        const itemHeight = 180;
-        const translateZ = "30vw";
-        
-        document.documentElement.style.setProperty('--carousel-item-width', `${itemWidth}px`);
-        document.documentElement.style.setProperty('--carousel-item-height', `${itemHeight}px`);
-        document.documentElement.style.setProperty('--carousel-translateZ', translateZ);
-        
-        // Update carousel container
-        const carousel = document.querySelector('.carousel-3d');
-        if (carousel) {
-          carousel.style.transform = `translateZ(-${translateZ}) rotateY(${currentRotation}deg)`;
-        }
-        
-        // Update spacing between items
-        const items = document.querySelectorAll('.carousel-item');
-        items.forEach((item, index) => {
-          item.style.margin = '0 25px';
-          item.style.transform = `
-            translateX(-50%) 
-            translateY(-50%) 
-            rotateY(calc(${index} * 45deg)) 
-            translateZ(${translateZ})
-          `;
-        });
-      }
-    }
   </script>
 </body>
 
