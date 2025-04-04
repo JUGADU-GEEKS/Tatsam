@@ -96,8 +96,8 @@ img {
 }
 
 .container {
-  width: 100%;
-  max-width: 1200px;
+  width: 90%;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -426,22 +426,58 @@ img {
   overflow: hidden;
 }
 
+.hero::before {
+  display: none;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 10;
+  background-image: url('assets/burnt-paper.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 12px;
+  padding: 4rem 3rem;
+  min-height: 80vh;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 95%;
+  max-width: 1500px;
+}
+
+.dark .hero .container {
+  background-image: url('assets/burnt-paper.png');
+  filter: brightness(0.85) contrast(1.1) sepia(0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
 .hero-pattern {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.5;
+  opacity: 0.3;
   background-image: var(--pattern-bg);
-  z-index: -1;
+  z-index: 1;
+  mix-blend-mode: overlay;
 }
 
 .hero-content {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   text-align: center;
   animation: fadeIn 1s ease-out;
+  position: relative;
+  z-index: 10;
+  padding: 2rem;
+  background-color: transparent;
+  backdrop-filter: none;
+  border-radius: 1rem;
+  width: 100%;
 }
 
 @keyframes fadeIn {
@@ -460,12 +496,24 @@ img {
   font-size: 3rem;
   margin-bottom: 1rem;
   color: var(--foreground);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dark .hero-title {
+  color: #e8e8e8;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 .hero-subtitle {
   font-size: 1.5rem;
   margin-bottom: 2rem;
   color: var(--primary);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.dark .hero-subtitle {
+  color: #ff9933;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .hero-buttons {
@@ -1145,6 +1193,16 @@ img {
     justify-content: center;
     margin-top: 1rem;
   }
+
+  .hero .container {
+    padding: 3rem 1.5rem;
+    background-size: cover;
+    width: 95%;
+  }
+  
+  .hero-content {
+    padding: 1rem;
+  }
 }
 
 @media (max-width: 576px) {
@@ -1362,140 +1420,95 @@ img {
 .shayari-container {
   margin-top: 2rem;
   padding: 1.5rem;
-  border-radius: 1rem;
-  max-width: 600px;
+  max-width: 700px;
   margin-left: auto;
   margin-right: auto;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.5s ease;
   position: relative;
   overflow: hidden;
+  z-index: 11;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.dark .shayari-container {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .shayari-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  z-index: 1;
+  display: none;
 }
 
-.shayari-container[data-theme="love"] {
-  background: linear-gradient(135deg, rgba(196, 109, 122, 0.205), rgba(255, 0, 128, 0.2));
-}
-
-.shayari-container[data-theme="motivation"] {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2));
-}
-
-.shayari-container[data-theme="friendship"] {
-  background: linear-gradient(135deg, rgba(135, 206, 235, 0.2), rgba(0, 191, 255, 0.2));
-}
-
-.shayari-container[data-theme="sad"] {
-  background: linear-gradient(135deg, rgba(169, 169, 169, 0.2), rgba(128, 128, 128, 0.2));
-}
-
-.shayari-container[data-theme="life"] {
-  background: linear-gradient(135deg, rgba(144, 238, 144, 0.2), rgba(50, 205, 50, 0.2));
-}
-
-.dark .shayari-container[data-theme="love"] {
-  background: linear-gradient(135deg, rgba(255, 182, 193, 0.1), rgba(255, 105, 180, 0.1));
-}
-
-.dark .shayari-container[data-theme="motivation"] {
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
-}
-
-.dark .shayari-container[data-theme="friendship"] {
-  background: linear-gradient(135deg, rgba(135, 206, 235, 0.1), rgba(0, 191, 255, 0.1));
-}
-
-.dark .shayari-container[data-theme="sad"] {
-  background: linear-gradient(135deg, rgba(169, 169, 169, 0.1), rgba(128, 128, 128, 0.1));
-}
-
-.dark .shayari-container[data-theme="life"] {
-  background: linear-gradient(135deg, rgba(144, 238, 144, 0.1), rgba(50, 205, 50, 0.1));
-}
-
-.shayari-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  padding: 1rem;
+.dark .shayari-container::before {
+  display: none;
 }
 
 .shayari-text {
-  font-size: 1.2rem;
-  line-height: 1.6;
-  color: var(--text-color);
+  font-size: 1.3rem;
+  line-height: 1.7;
+  color: var(--foreground);
   font-family: 'Yatra One', cursive;
   margin: 0;
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.5s ease;
+  transform: translateY(20px) scale(0.95);
+  transition: opacity 0.8s ease, transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  letter-spacing: 0.01em;
 }
 
 .shayari-text.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+}
+
+.dark .shayari-text {
+  color: #222222;
+  text-shadow: none;
+  font-weight: 600;
 }
 
 .shayari-theme {
-  font-size: 0.9rem;
-  color: var(--text-color);
-  opacity: 0.7;
-  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--primary);
+  opacity: 0;
+  margin-top: 1.5rem;
   text-transform: capitalize;
+  transform: translateY(10px);
+  transition: opacity 0.8s ease 0.6s, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.6s;
+  letter-spacing: 0.05em;
+  font-style: italic;
+  font-weight: 500;
+  display: inline-block;
+  position: relative;
 }
 
-.shayari-loader {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 3;
-  display: none;
+.shayari-text.visible + .shayari-theme {
+  opacity: 0.9;
+  transform: translateY(0);
 }
 
-.shayari-loader.active {
-  display: block;
+.dark .shayari-theme {
+  color: #121212;
+  opacity: 0;
+  font-weight: 500;
 }
 
-.loader-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid var(--text-color);
-  border-top: 3px solid transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+.dark .shayari-text.visible + .shayari-theme {
+  opacity: 0.95;
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
+.dark .hero-buttons .button-outline {
+  border-color: #ff9933;
+  color: #ff9933;
 }
 
-@media (max-width: 768px) {
-  .shayari-container {
-    margin-top: 1.5rem;
-    padding: 1rem;
-  }
-
-  .shayari-text {
-    font-size: 1.1rem;
-  }
+.dark .hero-buttons .button-outline:hover {
+  background-color: rgba(255, 153, 51, 0.9);
+  color: #1a1a1a;
 }
 
 /* Scroll to Top Button */
