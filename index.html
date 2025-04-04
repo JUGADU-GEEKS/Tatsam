@@ -129,23 +129,78 @@
       scroll-snap-align: center;
       opacity: 0;
     }
+
+    .carousel-controls {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      z-index: 10;
+    }
+
+    .carousel-controls button {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #333;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .carousel-controls button:hover {
+      background-color: #fff;
+      transform: scale(1.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .carousel-controls button i {
+      font-size: 1.2rem;
+    }
+
+    /* Adjust gallery section padding to accommodate controls */
+    .gallery-3d-carousel {
+      margin-bottom: 80px;
+      position: relative;
+    }
+
+    /* Add spacing for gallery CTA */
+    .gallery-cta {
+      position: relative;
+      margin-top: 100px;
+      z-index: 20;
+    }
+
+    .gallery-cta .button-primary {
+      position: relative;
+      z-index: 20;
+    }
   </style>
 
   <!-- Parallax Gallery Styles -->
   <style>
     /* 3D Carousel Gallery Styles */
     :root {
-      --carousel-item-width: 300px;
-      --carousel-item-height: 400px;
-      --carousel-translateZ: 35vw;
+      --carousel-item-width: clamp(250px, 35vw, 400px);
+      --carousel-item-height: clamp(300px, 40vw, 450px);
+      --carousel-translateZ: clamp(400px, 45vw, 600px);
+      --carousel-perspective: 2000px;
     }
 
     .gallery-3d-carousel {
       position: relative;
       width: 100%;
-      height: 500px;
-      margin: 2rem 0;
-      perspective: 1200px;
+      height: clamp(500px, 70vh, 700px);
+      margin: 2rem auto;
+      perspective: var(--carousel-perspective);
+      overflow: visible;
     }
 
     .carousel-container {
@@ -153,6 +208,7 @@
       width: 100%;
       height: 100%;
       transform-style: preserve-3d;
+      perspective: var(--carousel-perspective);
     }
 
     .carousel-3d {
@@ -160,7 +216,7 @@
       width: 100%;
       height: 100%;
       transform-style: preserve-3d;
-      transition: transform 1s ease;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
       transform: translateZ(calc(-1 * var(--carousel-translateZ)));
     }
 
@@ -171,43 +227,21 @@
       left: 50%;
       top: 50%;
       transform-style: preserve-3d;
-      transform:
-        translateX(-50%) translateY(-50%) rotateY(calc(var(--item-index) * 45deg)) translateZ(var(--carousel-translateZ));
+      transform: translateX(-50%) translateY(-50%) rotateY(calc(var(--item-index) * 45deg)) translateZ(var(--carousel-translateZ));
       transition: all 0.5s ease;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      margin: 0 25px;
     }
 
-    /* Add styles for active/front item */
     .carousel-item.active {
-      transform:
-        translateX(-50%) translateY(-50%) rotateY(calc(var(--item-index) * 45deg)) translateZ(var(--carousel-translateZ)) scale(1.35);
+      transform: translateX(-50%) translateY(-50%) rotateY(calc(var(--item-index) * 45deg)) translateZ(var(--carousel-translateZ)) scale(1.2);
       z-index: 10;
       filter: brightness(1.2) contrast(1.1);
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     }
 
-    /* Add a highlight glow effect to the active item */
-    .carousel-item.active::before {
-      content: '';
-      position: absolute;
-      inset: -10px;
-      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
-      border-radius: 15px;
-      z-index: -1;
+    .carousel-item:not(.active) {
       opacity: 0.7;
-      animation: pulse 3s infinite alternate;
-    }
-
-    @keyframes pulse {
-      0% {
-        opacity: 0.5;
-        transform: scale(1);
-      }
-
-      100% {
-        opacity: 0.7;
-        transform: scale(1.05);
-      }
     }
 
     .carousel-item img {
@@ -225,13 +259,14 @@
       width: 100%;
       background: rgba(0, 0, 0, 0.7);
       color: white;
-      padding: 15px;
+      padding: clamp(8px, 2vw, 15px);
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
       transform: translateZ(1px);
       opacity: 0;
       transition: opacity 0.5s ease;
       text-align: center;
+      font-size: clamp(0.75rem, 2vw, 1rem);
     }
 
     .carousel-item:hover .item-caption,
@@ -239,200 +274,79 @@
       opacity: 1;
     }
 
-    .carousel-controls {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px 0;
-      z-index: 10;
-    }
-
-    .carousel-prev,
-    .carousel-next {
-      background-color: rgba(255, 255, 255, 0.9);
-      border: none;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s, background-color 0.3s;
-    }
-
-    .carousel-prev:hover,
-    .carousel-next:hover {
-      transform: scale(1.1);
-      background-color: #ffffff;
-    }
-
-    .carousel-prev:active,
-    .carousel-next:active {
-      transform: scale(0.95);
-    }
-
     /* Responsive adjustments */
+    @media (max-width: 1200px) {
+      :root {
+        --carousel-item-width: clamp(200px, 30vw, 300px);
+        --carousel-item-height: clamp(250px, 35vw, 350px);
+        --carousel-translateZ: clamp(300px, 40vw, 500px);
+      }
+    }
+
     @media (max-width: 768px) {
-      .gallery-3d-carousel {
-        height: 400px;
-      }
-
-      .carousel-item.active {
-        scale: 1.25;
-      }
-
-      .item-caption {
-        padding: 8px;
-        font-size: 0.85rem;
-      }
-
       :root {
-        --carousel-item-width: 220px;
-        --carousel-item-height: 280px;
-        --carousel-translateZ: 25vw;
+        --carousel-item-width: clamp(180px, 28vw, 250px);
+        --carousel-item-height: clamp(220px, 32vw, 300px);
+        --carousel-translateZ: clamp(250px, 35vw, 400px);
+      }
+
+      .gallery-3d-carousel {
+        height: clamp(400px, 60vh, 500px);
       }
     }
 
-    /* iPhone and small mobile devices */
-    @media (max-width: 420px) {
-      .gallery-3d-carousel {
-        height: 350px;
-      }
-
+    @media (max-width: 480px) {
       :root {
-        --carousel-item-width: 180px;
-        --carousel-item-height: 220px;
-        --carousel-translateZ: 20vw;
+        --carousel-item-width: clamp(160px, 25vw, 220px);
+        --carousel-item-height: clamp(200px, 30vw, 270px);
+        --carousel-translateZ: clamp(200px, 32vw, 350px);
       }
 
-      .carousel-item.active {
-        scale: 1.2;
-      }
-
-      .carousel-prev,
-      .carousel-next {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
-      }
-
-      .item-caption {
-        padding: 5px;
-        font-size: 0.75rem;
+      .gallery-3d-carousel {
+        height: clamp(350px, 55vh, 450px);
       }
     }
 
-    /* iPhone 12/13 Pro specific */
-    @media only screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) {
+    /* Height-based responsive adjustments */
+    @media (max-height: 800px) {
       .gallery-3d-carousel {
-        height: 340px;
-      }
-
-      :root {
-        --carousel-item-width: 160px;
-        --carousel-item-height: 200px;
-        --carousel-translateZ: 18vw;
-      }
-
-      .carousel-3d {
-        transform: translateZ(-18vw) rotateY(0deg);
-      }
-
-      .carousel-item.active {
-        scale: 1.15;
+        height: clamp(400px, 65vh, 500px);
       }
     }
 
-    /* Fix for Safari on iOS */
-    @supports (-webkit-touch-callout: none) {
-      .carousel-item {
-        -webkit-transform-style: preserve-3d;
-        -webkit-backface-visibility: hidden;
-      }
-
-      .carousel-3d {
-        -webkit-transform-style: preserve-3d;
-      }
-
+    @media (max-height: 600px) {
       .gallery-3d-carousel {
-        -webkit-perspective: 1200px;
+        height: clamp(350px, 60vh, 450px);
+      }
+      
+      :root {
+        --carousel-item-width: clamp(160px, 25vw, 220px);
+        --carousel-item-height: clamp(200px, 30vw, 270px);
+        --carousel-translateZ: clamp(200px, 32vw, 350px);
       }
     }
 
-    /* Very small devices */
-    @media (max-width: 350px) {
+    @media (max-height: 500px) {
       .gallery-3d-carousel {
-        height: 300px;
+        height: clamp(300px, 55vh, 400px);
       }
-
+      
       :root {
-        --carousel-item-width: 150px;
-        --carousel-item-height: 180px;
-        --carousel-translateZ: 18vw;
+        --carousel-item-width: clamp(140px, 22vw, 200px);
+        --carousel-item-height: clamp(180px, 28vw, 250px);
+        --carousel-translateZ: clamp(180px, 30vw, 300px);
       }
     }
 
-    /* iPhone 14 Pro Max specific styles */
-    @media only screen 
-    and (device-width: 430px) 
-    and (device-height: 932px) 
-    and (-webkit-device-pixel-ratio: 3) {
-      .gallery-3d-carousel {
-        height: 500px;
-        perspective: 1500px;
-        margin: 2rem 0;
-        overflow: visible;
-      }
+    /* Ensure proper spacing between items */
+    .carousel-item {
+      margin: 0 15px;
+      transition: transform 0.3s ease;
+    }
 
-      :root {
-        --carousel-item-width: 140px;
-        --carousel-item-height: 180px;
-        --carousel-translateZ: 30vw;
-      }
-
-      .carousel-3d {
-        transform: translateZ(-30vw) rotateY(0deg);
-      }
-
-      .carousel-item {
-        margin: 0 25px;
-        transition: all 0.4s ease;
-      }
-
-      .carousel-item.active {
-        transform:
-          translateX(-50%) translateY(-50%) rotateY(calc(var(--item-index) * 45deg)) translateZ(var(--carousel-translateZ)) scale(1.2);
-        z-index: 10;
-      }
-
-      .carousel-item:not(.active) {
-        opacity: 0.7;
-      }
-
-      .carousel-controls {
-        padding: 20px 0;
-        gap: 40px;
-        bottom: -60px;
-      }
-
-      .carousel-controls button {
-        width: 45px;
-        height: 45px;
-        background-color: rgba(255, 255, 255, 0.95);
-      }
-
-      .item-caption {
-        padding: 10px;
-        font-size: 0.85rem;
-        background: rgba(0, 0, 0, 0.8);
-      }
+    .carousel-item.active {
+      transform: scale(1.1);
+      z-index: 2;
     }
   </style>
 
@@ -1255,9 +1169,20 @@
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
-        // iPhone 14 Pro Max specific adjustments
-        if (viewportWidth === 430 && viewportHeight === 932) {
-          initializeForIPhone14ProMax();
+        // Specific adjustments for iPhone
+        let itemWidth, itemHeight, translateZ;
+
+        if (isiPhone()) {
+          // iPhone-specific sizes
+          if (viewportWidth <= 390) { // iPhone 12 Pro, 13 Pro, etc.
+            itemWidth = 160;
+            itemHeight = 200;
+            translateZ = "18vw";
+
+            document.documentElement.style.setProperty('--carousel-item-width', `${itemWidth}px`);
+            document.documentElement.style.setProperty('--carousel-item-height', `${itemHeight}px`);
+            document.documentElement.style.setProperty('--carousel-translateZ', translateZ);
+          }
         } else {
           // General responsive sizing
           translateZ = getTranslateZValue();
@@ -1368,37 +1293,6 @@
       // Start the carousel initialization
       waitForImagesLoaded();
     });
-
-    /* Update carousel initialization for iPhone 14 Pro Max */
-    function initializeForIPhone14ProMax() {
-      if (window.innerWidth === 430 && window.innerHeight === 932) {
-        const itemWidth = 140;
-        const itemHeight = 180;
-        const translateZ = "30vw";
-        
-        document.documentElement.style.setProperty('--carousel-item-width', `${itemWidth}px`);
-        document.documentElement.style.setProperty('--carousel-item-height', `${itemHeight}px`);
-        document.documentElement.style.setProperty('--carousel-translateZ', translateZ);
-        
-        // Update carousel container
-        const carousel = document.querySelector('.carousel-3d');
-        if (carousel) {
-          carousel.style.transform = `translateZ(-${translateZ}) rotateY(${currentRotation}deg)`;
-        }
-        
-        // Update spacing between items
-        const items = document.querySelectorAll('.carousel-item');
-        items.forEach((item, index) => {
-          item.style.margin = '0 25px';
-          item.style.transform = `
-            translateX(-50%) 
-            translateY(-50%) 
-            rotateY(calc(${index} * 45deg)) 
-            translateZ(${translateZ})
-          `;
-        });
-      }
-    }
   </script>
 </body>
 
