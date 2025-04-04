@@ -130,14 +130,18 @@
       opacity: 0;
     }
 
+    /* Fix carousel controls positioning */
     .carousel-controls {
       position: absolute;
-      bottom: -60px;
+      bottom: -70px; /* Increased from -60px to -70px to move further down */
       left: 50%;
       transform: translateX(-50%);
       display: flex;
       gap: 20px;
-      z-index: 10;
+      z-index: 30;
+      padding: 10px; /* Added padding to increase hit area */
+      background: rgba(255, 255, 255, 0.1); /* Subtle background for visibility */
+      border-radius: 30px;
     }
 
     .carousel-controls button {
@@ -167,8 +171,12 @@
 
     /* Adjust gallery section padding to accommodate controls */
     .gallery-3d-carousel {
-      margin-bottom: 80px;
       position: relative;
+      width: 100%;
+      height: clamp(500px, 70vh, 700px);
+      margin: 2rem auto 5rem; /* Increased bottom margin */
+      perspective: var(--carousel-perspective);
+      overflow: visible;
     }
 
     /* Add spacing for gallery CTA */
@@ -181,6 +189,216 @@
     .gallery-cta .button-primary {
       position: relative;
       z-index: 20;
+    }
+
+    /* Gallery Background Styles */
+    .gallery {
+      position: relative;
+      padding: 80px 0;
+      background: none;
+      z-index: 1;
+      --bg-opacity: 0.2;
+    }
+
+    .gallery::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('./img2.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      opacity: var(--bg-opacity);
+      z-index: -1;
+      filter: none; /* Removed blur filter */
+      transition: opacity 0.8s ease;
+    }
+
+    .gallery.background-glow::before {
+      filter: none; /* Removed blur filter */
+      opacity: var(--bg-opacity);
+    }
+
+    /* Enhanced 3D Carousel with Background */
+    .gallery-3d-carousel {
+      position: relative;
+      width: 100%;
+      height: clamp(500px, 70vh, 700px);
+      margin: 2rem auto;
+      perspective: var(--carousel-perspective);
+      overflow: visible;
+      z-index: 2;
+    }
+
+    /* Improve visual contrast for item captions */
+    .item-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: clamp(8px, 2vw, 15px);
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      transform: translateZ(1px);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      text-align: center;
+      font-size: clamp(0.75rem, 2vw, 1rem);
+      font-weight: 600;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Enhanced carousel controls for better visibility on the background */
+    .carousel-controls {
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+      z-index: 10;
+    }
+
+    .carousel-controls button {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: none;
+      background-color: rgba(255, 255, 255, 0.95);
+      color: #333;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .carousel-controls button:hover {
+      background-color: #fff;
+      transform: scale(1.15);
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Enhanced styling for section title to stand out against background */
+    .gallery .section-title {
+      position: relative;
+      margin-bottom: 2.5rem;
+      color: var(--color-text);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      font-weight: 700;
+    }
+
+    .gallery .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--color-primary);
+      border-radius: 2px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Gallery animation on scroll */
+    .gallery.scroll-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+    }
+
+    .gallery.scroll-reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Carousel item styling enhancements */
+    .carousel-item {
+      position: absolute;
+      width: var(--carousel-item-width);
+      height: var(--carousel-item-height);
+      left: 50%;
+      top: 50%;
+      transform-style: preserve-3d;
+      transform: translateX(-50%) translateY(-50%) rotateY(calc(var(--item-index) * 45deg)) translateZ(var(--carousel-translateZ));
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .carousel-item.active {
+      transform: translateX(-50%) translateY(-50%) rotateY(calc(var(--item-index) * 45deg)) translateZ(var(--carousel-translateZ)) scale(1.2);
+      z-index: 10;
+      filter: brightness(1.2) contrast(1.1);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Enhance 3D Carousel integration with background */
+    .gallery .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    .gallery .gallery-3d-carousel {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(5px);
+      padding: 20px;
+      /* Removed box shadow */
+      position: relative;
+      overflow: visible; /* Changed from hidden to visible */
+    }
+
+    .gallery .gallery-3d-carousel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+      border-radius: 20px;
+      z-index: -1;
+    }
+
+    /* Improve gallery CTA for better visibility on background */
+    .gallery-cta {
+      position: relative;
+      margin-top: 120px; /* Increased from 100px to provide more space for controls */
+      z-index: 20;
+      text-align: center;
+    }
+
+    .gallery-cta .button-primary {
+      background: var(--color-primary);
+      padding: 12px 30px;
+      font-size: 1.1rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gallery-cta .button-primary::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: all 0.5s ease;
+    }
+
+    .gallery-cta .button-primary:hover::before {
+      left: 100%;
     }
   </style>
 
@@ -198,9 +416,14 @@
       position: relative;
       width: 100%;
       height: clamp(500px, 70vh, 700px);
-      margin: 2rem auto;
+      margin: 2rem auto 5rem; /* Increased bottom margin for controls */
       perspective: var(--carousel-perspective);
       overflow: visible;
+    }
+
+    /* Add spacing below carousel for controls */
+    .gallery-3d-carousel .carousel-container {
+      padding-bottom: 70px; /* Create space for controls */
     }
 
     .carousel-container {
@@ -250,23 +473,6 @@
       object-fit: cover;
       border-radius: 10px;
       transition: all 0.5s ease;
-    }
-
-    .item-caption {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: clamp(8px, 2vw, 15px);
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
-      transform: translateZ(1px);
-      opacity: 0;
-      transition: opacity 0.5s ease;
-      text-align: center;
-      font-size: clamp(0.75rem, 2vw, 1rem);
     }
 
     .carousel-item:hover .item-caption,
@@ -1057,6 +1263,87 @@
       const items = document.querySelectorAll('.carousel-item');
       const itemCount = items.length;
       const rotationAngle = 360 / itemCount;
+      const gallerySection = document.getElementById('gallery');
+      const carouselControls = document.querySelector('.carousel-controls');
+      
+      // Ensure carousel controls are properly positioned
+      if (carouselControls) {
+        // Position the controls absolutely relative to the viewport
+        carouselControls.style.position = 'absolute';
+        carouselControls.style.zIndex = '100';
+        
+        // Add a slight delay to ensure the carousel is rendered before positioning
+        setTimeout(() => {
+          // Get the carousel container bottom position
+          const carouselContainer = document.querySelector('.carousel-container');
+          if (carouselContainer) {
+            const containerRect = carouselContainer.getBoundingClientRect();
+            // Position the controls 20px below the carousel
+            carouselControls.style.bottom = '-60px';
+          }
+        }, 500);
+      }
+
+      // Scroll reveal animation
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            // Add glow effect to the background when the section is visible
+            if (entry.target.id === 'gallery') {
+              entry.target.classList.add('background-glow');
+            }
+          }
+        });
+      }, {
+        threshold: 0.2, // 20% of the element must be visible
+        rootMargin: '0px 0px -100px 0px'
+      });
+      
+      // Observe all scroll-reveal elements
+      document.querySelectorAll('.scroll-reveal').forEach(el => {
+        observer.observe(el);
+      });
+
+      // Additional glow effect for gallery background
+      if (gallerySection) {
+        const addGlowEffect = () => {
+          const scrollPosition = window.scrollY;
+          const galleryTop = gallerySection.offsetTop;
+          const viewportHeight = window.innerHeight;
+          
+          // Calculate how much of the gallery is in view
+          const distanceFromTop = galleryTop - scrollPosition;
+          const percentVisible = 1 - (distanceFromTop / viewportHeight);
+          
+          if (percentVisible > 0 && percentVisible < 1) {
+            // Adjust opacity of the background based on scroll position
+            const opacity = 0.1 + (percentVisible * 0.15); // Max opacity 0.25
+            gallerySection.style.setProperty('--bg-opacity', opacity.toString());
+          }
+        };
+        
+        // Update gallery background glow effect on scroll
+        window.addEventListener('scroll', addGlowEffect);
+        
+        // Set initial CSS variable for the opacity
+        gallerySection.style.setProperty('--bg-opacity', '0.2');
+      }
+
+      // Background parallax effect
+      if (gallerySection) {
+        window.addEventListener('scroll', function() {
+          const scrollPosition = window.scrollY;
+          const galleryPosition = gallerySection.getBoundingClientRect().top + window.scrollY;
+          const offset = scrollPosition - galleryPosition;
+          
+          if (offset > -500 && offset < 500) {
+            const parallaxSpeed = 0.4;
+            const yPos = -(offset * parallaxSpeed);
+            gallerySection.style.backgroundPositionY = yPos + 'px';
+          }
+        });
+      }
 
       // Auto rotation
       let autoRotate = true;
@@ -1142,6 +1429,20 @@
         // Apply rotation transform
         const translateZ = getTranslateZValue();
         carousel.style.transform = `translateZ(-${translateZ}) rotateY(${currentRotation}deg)`;
+
+        // Enhanced effect: adjust background opacity slightly when rotating
+        if (gallerySection) {
+          const currentOpacity = parseFloat(gallerySection.style.getPropertyValue('--bg-opacity')) || 0.2;
+          const newOpacity = currentOpacity + (direction === 'next' ? 0.02 : -0.02);
+          // Keep opacity within bounds
+          const boundedOpacity = Math.max(0.1, Math.min(0.3, newOpacity));
+          gallerySection.style.setProperty('--bg-opacity', boundedOpacity.toString());
+          
+          // Reset opacity after a delay
+          setTimeout(() => {
+            gallerySection.style.setProperty('--bg-opacity', '0.2');
+          }, 800);
+        }
 
         // Update active item
         setTimeout(updateActiveItem, 500); // Wait for transition to complete
